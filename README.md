@@ -18,7 +18,7 @@ alaMailLibsVersion=1.0.0-SNAPSHOT
 `build.gradle`:
 ```build.gradle
 dependencies {
-  implementation "au.org.ala:ala-mail:alaMailLibsVersion"
+  implementation "au.org.ala:ala-mail:${alaMailLibsVersion}"
 }
 ```
 
