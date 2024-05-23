@@ -1,22 +1,13 @@
 package au.org.ala.mail;
 
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
-import com.amazonaws.services.simpleemail.model.RawMessage;
-import com.amazonaws.services.simpleemail.model.SendRawEmailRequest;
-import com.amazonaws.services.simpleemail.model.SendRawEmailResult;
 import org.springframework.lang.Nullable;
 import org.springframework.mail.*;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.util.*;
 
-import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 public class AlaAwsSesMailSender implements JavaMailSender {
