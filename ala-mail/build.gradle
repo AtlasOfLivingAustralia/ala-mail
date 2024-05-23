@@ -11,6 +11,8 @@ plugins {
 
     // Apply the java-library plugin for API and implementation separation.
     id 'java-library'
+
+    id 'maven-publish'
 }
 
 repositories {
@@ -48,4 +50,43 @@ java {
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+publishing {
+    repositories {
+        maven {
+            name 'Nexus'
+            url "https://nexus.ala.org.au/content/repositories/${project.version.endsWith('-SNAPSHOT') ? 'snapshots' : 'releases' }"
+            credentials {
+                username = System.getenv('TRAVIS_DEPLOY_USERNAME')
+                password = System.getenv('TRAVIS_DEPLOY_PASSWORD')
+            }
+        }
+    }
+    publications {
+        maven(MavenPublication) {
+            from components.java
+//            artifact sourcesJar
+//            artifact javadocJar
+
+            pom {
+                name = 'ALA Mail Library'
+                description = 'Library to deliver mail via AWS SES'
+                url = 'https://github.com/AtlasOfLivingAustralia/ala-mail'
+                licenses {
+                    license {
+                        name = 'MPL-1.1'
+                        url = 'https://www.mozilla.org/en-US/MPL/1.1/'
+                    }
+                }
+                developers {
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/AtlasOfLivingAustralia/ala-mail.git'
+                    developerConnection = 'scm:git:ssh://github.com:AtlasOfLivingAustralia/ala-mail.git'
+                    url = 'https://github.com/AtlasOfLivingAustralia/ala-mail/tree/main'
+                }
+            }
+        }
+    }
 }
