@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.ses.SesClient;
+import software.amazon.awssdk.services.ses.SesClientBuilder;
 
 @Configuration
 @EnableConfigurationProperties({ AlaAwsSesConfigurationProperties.class })
@@ -20,9 +21,13 @@ public class AlaAwsSesConfiguration {
     @ConditionalOnProperty("mail.ses.enabled")
     SesClient awsEmailService() {
 
-        SesClient sesClient = SesClient.builder()
-                .region(properties.getRegion() != null ? properties.getRegion() : Region.AWS_GLOBAL)
-                .build();
+        SesClientBuilder builder = SesClient.builder();
+
+        if (properties.getRegion() != null) {
+            builder = builder.region(properties.getRegion());
+        }
+
+        SesClient sesClient = builder.build();
 
         return sesClient;
     }
