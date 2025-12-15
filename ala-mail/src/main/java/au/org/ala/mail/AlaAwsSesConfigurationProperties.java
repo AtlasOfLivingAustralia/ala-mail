@@ -1,14 +1,14 @@
 package au.org.ala.mail;
 
-import com.amazonaws.regions.Regions;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import software.amazon.awssdk.regions.Region;
 
 @ConfigurationProperties(prefix = "mail.ses")
 class AlaAwsSesConfigurationProperties {
 
     private String configSet;
 
-    private Regions region;
+    private Region region;
 
     public String getConfigSet() {
         return configSet;
@@ -18,11 +18,11 @@ class AlaAwsSesConfigurationProperties {
         this.configSet = configSet;
     }
 
-    public Regions getRegion() {
+    public Region getRegion() {
         return region;
     }
 
-    public void setRegion(Regions region) {
+    public void setRegion(Region region) {
         this.region = region;
     }
 }

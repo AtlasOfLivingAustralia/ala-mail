@@ -1,10 +1,10 @@
 package au.org.ala.mail;
 
-import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import org.springframework.lang.Nullable;
 import org.springframework.mail.*;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import software.amazon.awssdk.services.ses.SesClient;
 
 import java.io.InputStream;
 
@@ -14,11 +14,11 @@ public class AlaAwsSesMailSender implements JavaMailSender {
 
     static final WrappedJavaMailSenderImpl delegate = new WrappedJavaMailSenderImpl();
 
-    public AmazonSimpleEmailService getEmailService() {
-        return delegate.getEmailService();
+    public SesClient getSesClient() {
+        return delegate.getSesClient();
     }
 
-    public void setEmailService(AmazonSimpleEmailService emailService) {
+    public void setEmailService(SesClient emailService) {
         delegate.setEmailService(emailService);
     }
 
