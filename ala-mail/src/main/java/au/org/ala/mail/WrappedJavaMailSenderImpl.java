@@ -1,5 +1,7 @@
 package au.org.ala.mail;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.lang.Nullable;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSendException;
@@ -17,6 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class WrappedJavaMailSenderImpl extends JavaMailSenderImpl {
+    private static final Logger logger = LoggerFactory.getLogger(WrappedJavaMailSenderImpl.class);
 
     private static final String HEADER_MESSAGE_ID = "Message-ID";
 
@@ -29,7 +32,7 @@ public class WrappedJavaMailSenderImpl extends JavaMailSenderImpl {
         return sesClient;
     }
 
-    public void setEmailService(SesClient emailService) {
+    public void setEmailService(SesClient sesClient) {
         this.sesClient = sesClient;
     }
 
