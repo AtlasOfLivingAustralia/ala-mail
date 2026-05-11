@@ -6,7 +6,7 @@ import grails.plugins.Plugin
 
 class AlaAwsSesGrailsPlugin extends Plugin {
     // the version or versions of Grails the plugin is designed for
-    def grailsVersion = "6.2.0 > *"
+    def grailsVersion = "7.1.1 > *"
     // resources that are excluded from plugin packaging
     def pluginExcludes = []
 

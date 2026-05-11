@@ -1,31 +1,48 @@
-# ala-mail
-
-Java libraries and Grails plugins for handling mail delivery
-
-Usage
------
-
-The current version of these libraries is: `1.0.0-SNAPSHOT`.
-
-To ensure that various plugins and libraries and self-consistent, a project should use the same version for
-each of the plugins and libraries that it consumes, eg. for a Grails project:
-
-`gradle.properties`:
-```gradle.properties
-alaMailLibsVersion=1.0.0-SNAPSHOT
+# ala-mail [![Build Status](https://app.travis-ci.com/AtlasOfLivingAustralia/ala-mail.svg?branch=develop)](https://app.travis-ci.com/AtlasOfLivingAustralia/ala-mail)
+## Usage
+```
+implementation 'au.org.ala:ala-mail:1.0.0-SNAPSHOT'
 ```
 
-`build.gradle`:
-```build.gradle
-dependencies {
-  implementation "au.org.ala:ala-mail:${alaMailLibsVersion}"
-}
+## Description
+The `ala-mail` library provides an implementation of `org.springframework.mail.javamail.JavaMailSender` that delivery 
+via AWS Simple Email Service (SES).
+
+## Setup
+To include the `ala-mail` library in your application.
+
+### Spring Boot
+
+By default, no spring beans will be added to the context. \
+When the configuration `mail.ses.enabled` = `true` the following beans are available:
+
+ - `mailSender`: `org.springframework.mail.javamail.JavaMailSender`
+ - `awsEmailService`: `com.amazonaws.services.simpleemail.AmazonSimpleEmailService`
+
+### Grails
+
+As with Spring Boot the `mailSender` bean will be available if enables.
+
+Using with the [grails-mail](https://github.com/grails/grails-mail) plugin. 
+
+The `grails-mail` plugin uses the `mailSender` to send mail, when enabled it will deliver via AWS SES.
+
+## Configuration
+
+ - `mail.ses.enabled`: set to true to enable AWS SES mail sender
+ - `mail.ses.configSet`: (optional) the name of an [AWS SES configuration set](https://docs.aws.amazon.com/ses/latest/dg/using-configuration-sets.html)
+ - `mail.ses.region`: (optional) the AWS region one of [Regions](https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/regions/Regions.html) enum
+
+example:
+```
+mail:
+  ses:
+    enabled: true
+    configSet: my-config-set
+    region: AP-SOUTHEAST-2
 ```
 
-Components
-----------
+## Changelog
 
-This project contains all the following previously separate ALA Grails plugins and libs:
-
-- [ala-mail](ala-mail) - provide an implementation of the spring mail sender at integrates with AWS SES. Can also be 
-used as a grails plugin.  
+- **Version 1.0.0**
+  - Initial release 

@@ -21,5 +21,4 @@ pluginManagement {
 //
 //}
 
-// rootProject.name = 'ala-mail'
-include "ala-mail" //, "ala-mail-plugin"
+rootProject.name = 'ala-mail'

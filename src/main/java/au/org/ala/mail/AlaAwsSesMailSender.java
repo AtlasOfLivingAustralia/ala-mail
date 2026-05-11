@@ -8,7 +8,7 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 
 import java.io.InputStream;
 
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMessage;
 
 public class AlaAwsSesMailSender implements JavaMailSender {
 
