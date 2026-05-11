@@ -46,3 +46,5 @@ mail:
 
 - **Version 1.0.0**
   - Initial release 
+- **Version 2.0.0**
+  - Update to Grails 7.1.1
