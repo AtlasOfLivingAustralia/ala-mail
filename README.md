@@ -1,5 +1,13 @@
 # ala-mail [![Build Status](https://app.travis-ci.com/AtlasOfLivingAustralia/ala-mail.svg?branch=develop)](https://app.travis-ci.com/AtlasOfLivingAustralia/ala-mail)
 ## Usage
+
+The latest version is: `2.0.0 - SNAPSHOT`, which supports Grails 7.1.1.
+NOTES: Grails 7.1.1 is not compatible with Grails 6
+```
+implementation 'au.org.ala:ala-mail:2.0.0-SNAPSHOT'
+```
+
+Using 1.0.0-SNAPSHOT, if you are using Grails 6.
 ```
 implementation 'au.org.ala:ala-mail:1.0.0-SNAPSHOT'
 ```
