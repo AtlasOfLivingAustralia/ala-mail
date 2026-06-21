@@ -1,36 +1,39 @@
 package au.org.ala.mail;
 
-import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
-import com.amazonaws.services.simpleemail.model.RawMessage;
-import com.amazonaws.services.simpleemail.model.SendRawEmailRequest;
-import com.amazonaws.services.simpleemail.model.SendRawEmailResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.lang.Nullable;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import software.amazon.awssdk.core.SdkBytes;
+import software.amazon.awssdk.services.ses.SesClient;
+import software.amazon.awssdk.services.ses.model.RawMessage;
+import software.amazon.awssdk.services.ses.model.SendRawEmailRequest;
+import software.amazon.awssdk.services.ses.model.SendRawEmailResponse;
 
 import jakarta.mail.internet.MimeMessage;
 import java.io.ByteArrayOutputStream;
-import java.nio.ByteBuffer;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class WrappedJavaMailSenderImpl extends JavaMailSenderImpl {
+    private static final Logger logger = LoggerFactory.getLogger(WrappedJavaMailSenderImpl.class);
 
     private static final String HEADER_MESSAGE_ID = "Message-ID";
 
-    private AmazonSimpleEmailService emailService;
+    private SesClient sesClient;
 
     @Nullable
     private String configSet;
 
-    public AmazonSimpleEmailService getEmailService() {
-        return emailService;
+    public SesClient getSesClient() {
+        return sesClient;
     }
 
-    public void setEmailService(AmazonSimpleEmailService emailService) {
-        this.emailService = emailService;
+    public void setEmailService(SesClient sesClient) {
+        this.sesClient = sesClient;
     }
 
     void setConfigSet(@Nullable String configSet) {
@@ -67,14 +70,17 @@ public class WrappedJavaMailSenderImpl extends JavaMailSenderImpl {
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 mimeMessage.writeTo(outputStream);
 
-                RawMessage rawMessage =
-                        new RawMessage(ByteBuffer.wrap(outputStream.toByteArray()));
+                // Prepare RawMessage
+                RawMessage rawMessage = RawMessage.builder()
+                        .data(SdkBytes.fromByteArray(outputStream.toByteArray()))
+                        .build();
 
-                SendRawEmailRequest rawEmailRequest =
-                        new SendRawEmailRequest(rawMessage)
-                                .withConfigurationSetName(configSet);
+                SendRawEmailRequest request = SendRawEmailRequest.builder()
+                        .rawMessage(rawMessage)
+                        .configurationSetName(configSet)
+                        .build();
 
-                SendRawEmailResult result = emailService.sendRawEmail(rawEmailRequest);
+                SendRawEmailResponse response = sesClient.sendRawEmail(request);
 
             } catch (Exception ex) {
                 Object original = (originalMessages != null ? originalMessages[i] : mimeMessage);

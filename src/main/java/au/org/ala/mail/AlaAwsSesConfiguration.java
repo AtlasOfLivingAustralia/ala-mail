@@ -1,14 +1,14 @@
 package au.org.ala.mail;
 
-import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
-import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.ses.SesClient;
+import software.amazon.awssdk.services.ses.SesClientBuilder;
 
 @Configuration
 @EnableConfigurationProperties({ AlaAwsSesConfigurationProperties.class })
@@ -19,22 +19,22 @@ public class AlaAwsSesConfiguration {
 
     @Bean
     @ConditionalOnProperty("mail.ses.enabled")
-    AmazonSimpleEmailService awsEmailService() {
+    SesClient awsEmailService() {
 
-        AmazonSimpleEmailServiceClientBuilder builder =
-                AmazonSimpleEmailServiceClientBuilder.standard();
+        SesClientBuilder builder = SesClient.builder();
 
-        // TODO: configure alternate AWS region
         if (properties.getRegion() != null) {
-            builder.withRegion(properties.getRegion());
+            builder = builder.region(properties.getRegion());
         }
 
-        return builder.build();
+        SesClient sesClient = builder.build();
+
+        return sesClient;
     }
 
     @Bean
     @ConditionalOnProperty("mail.ses.enabled")
-    JavaMailSender mailSender(AmazonSimpleEmailService awsEmailService) {
+    JavaMailSender mailSender(SesClient awsEmailService) {
 
         AlaAwsSesMailSender mailSender = new AlaAwsSesMailSender();
         mailSender.setEmailService(awsEmailService);
