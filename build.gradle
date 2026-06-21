@@ -27,21 +27,11 @@ repositories {
 }
 
 dependencies {
-    // Use the latest Groovy version for Spock testing
-//    testImplementation libs.groovy
-//
-//    // Use the awesome Spock testing and specification framework even with Java
-//    testImplementation libs.spock.core
-//    testImplementation libs.junit
-
-//    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
     // This dependency is exported to consumers, that is to say found on their compile classpath.
     api 'com.sun.mail:jakarta.mail:2.0.1'
-    api 'com.amazonaws:aws-java-sdk-ses:1.12.715'
-
+    api 'software.amazon.awssdk:ses:2.40.8'
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
-//    implementation libs.guava
+    // implementation libs.guava
     implementation platform("org.apache.grails:grails-bom:${grailsVersion}")
     implementation 'org.apache.grails:grails-core'
     implementation 'org.springframework:spring-context-support'
