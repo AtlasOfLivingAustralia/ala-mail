@@ -8,3 +8,4 @@ build
 .idea/misc.xml
 .idea/vcs.xml
 .idea/workspace.xml
+.idea/http-test/http-test.json
