@@ -12,7 +12,7 @@ import software.amazon.awssdk.services.ses.model.RawMessage;
 import software.amazon.awssdk.services.ses.model.SendRawEmailRequest;
 import software.amazon.awssdk.services.ses.model.SendRawEmailResponse;
 
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMessage;
 import java.io.ByteArrayOutputStream;
 import java.util.Date;
 import java.util.LinkedHashMap;
