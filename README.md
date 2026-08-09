@@ -2,6 +2,12 @@
 
 ## Usage
 
+Current release version:
+
+```groovy
+implementation 'au.org.ala:ala-mail:3.0.0'
+```
+
 Current development version:
 
 ```groovy
